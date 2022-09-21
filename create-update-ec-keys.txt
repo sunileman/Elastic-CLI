@@ -1,0 +1,31 @@
+###Using the CLI: https://www.elastic.co/guide/en/ecctl/current/index.html
+
+###First get your EC deployment ID
+ecctl deployment list
+
+
+
+####create a file using new keys.  Ie I used newcreds.json
+###FYI Format of json payload:  https://www.elastic.co/guide/en/cloud/current/definitions.html#KeystoreContents
+{
+   "secrets" : {
+      "s3.client.secondary.access_key" : {
+         "as_file" : false,
+         "value" : "YOUR-ACCESS-KEY"
+      },
+"s3.client.secondary.secret_key" : {
+         "as_file" : false,
+         "value" : "YOUR-SECRET-KEY"
+      }
+   }
+}
+
+
+
+##Issue update against deployment
+
+ecctl deployment elasticsearch keystore set --file=newcreds.json <YOUR-DEPLOYMENT-ID>
+
+##wait around 30 seconds, all should be updated. If in doubt, issue
+##POST /_nodes/reload_secure_settings
+
